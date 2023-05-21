@@ -110,12 +110,12 @@ async function run() {
   }
 }
 
-run()
-  .app.listen(port, () => {
-    console.log(`Toy server is running on port: ${port}`);
-  })
-  .catch(console.dir);
-// run().catch(console.dir);
-// app.listen(port, () => {
-//   console.log(`Toy server is running on port: ${port}`);
-// });
+// run()
+//   .app.listen(port, () => {
+//     console.log(`Toy server is running on port: ${port}`);
+//   })
+//   .catch(console.dir);
+run().catch(console.dir);
+app.listen(port, () => {
+  console.log(`Toy server is running on port: ${port}`);
+});
