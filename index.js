@@ -2,37 +2,14 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 require("dotenv").config();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 2000;
 
-const corsConfig = {
-  origin: "*",
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE"],
-};
-app.use(cors(corsConfig));
-// const corsOptions = {
-//   origin: "*",
-//   credentials: true,
-//   optionSuccessStatus: 200,
-// };
-
-// app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());
 
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.pq4nrld.mongodb.net/?retryWrites=true&w=majority`;
 
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-// const client = new MongoClient(uri, {
-//   serverApi: {
-//     version: ServerApiVersion.v1,
-//     strict: true,
-//     deprecationErrors: true,
-//   },
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-//   maxPoolSize: 10,
-// });
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -43,12 +20,7 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
-    // client.connect((err) => {
-    //   if (err) {
-    //     console.error(err);
-    //     return;
-    //   }
-    // });
+    await client.connect();
     await client.db("admin").command({ ping: 1 });
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
@@ -138,8 +110,12 @@ async function run() {
   }
 }
 
-run()
-  .app.listen(port, () => {
-    console.log(`Toy server is running on port: ${port}`);
-  })
-  .catch(console.dir);
+// run()
+//   .app.listen(port, () => {
+//     console.log(`Toy server is running on port: ${port}`);
+//   })
+//   .catch(console.dir);
+run().catch(console.dir);
+app.listen(port, () => {
+  console.log(`Toy server is running on port: ${port}`);
+});
